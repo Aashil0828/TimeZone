@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+import "google/api/annotations.proto";
+
+message TimeZoneRequest{
+    double latitude = 1;
+    double longitude = 2;
+    string time = 3;
+}
+
+message TimeZoneResponse{
+    string utcOffset = 1;
+    string zoneName = 2;
+    string timeInThatZone = 3;
+}
+service TimeZoneService{
+    rpc TimeZoneDetails (TimeZoneRequest) returns (TimeZoneResponse){
+        option (google.api.http) = {
+            post: "/v1/timezonedetails"
+            body:"*"
+        };
+    };
+}
