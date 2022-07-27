@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net"
 	"net/http"
+	"os"
 	"timezone/pb/pb"
 	"timezone/service"
 
@@ -16,10 +18,22 @@ func main() {
 	server := service.NewServer()
 	// grpcServer := grpc.NewServer()
 	// pb.RegisterTimeZoneServiceServer(grpcServer, server)
-	listener, err := net.Listen("tcp", "0.0.0.0:8000")
-	if err != nil {
-		log.Fatalf("cannot start server : %v", err)
+	port:= os.Getenv("PORT")
+	var listener net.Listener
+	var err error
+	if port == ""{
+		listener, err = net.Listen("tcp", "0.0.0.0:8000")
+		if err != nil {
+			log.Fatalf("cannot start server : %v", err)
+		}
+	} else {
+		addr:= fmt.Sprintf("0.0.0.0:%v", port)
+		listener, err = net.Listen("tcp", addr)
+		if err != nil {
+			log.Fatalf("cannot start server : %v", err)
+		}
 	}
+	
 	log.Print("server started")
 	// err = grpcServer.Serve(listener)
 	// if err != nil {
