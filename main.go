@@ -16,7 +16,7 @@ func main() {
 	server := service.NewServer()
 	// grpcServer := grpc.NewServer()
 	// pb.RegisterTimeZoneServiceServer(grpcServer, server)
-	listener, err := net.Listen("tcp", "0.0.0.0:80")
+	listener, err := net.Listen("tcp", "0.0.0.0:8000")
 	if err != nil {
 		log.Fatalf("cannot start server : %v", err)
 	}
