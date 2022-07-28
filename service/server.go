@@ -32,7 +32,7 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 		forwarded = md.Get("x-forwarded-for")
 	}
 	if len(forwarded) != 0 {
-		ipaddress = forwarded[0]
+		ipaddress = strings.Split(forwarded[0], ",")[0]
 	} else {
 		ipaddress = client_ip[0]
 	}
