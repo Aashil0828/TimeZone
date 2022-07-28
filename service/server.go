@@ -57,7 +57,7 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 	if currentTime == "" {
 		t = getTime(time.Now())
 	} else {
-		t, err := time.Parse("2006-01-02 15:04:05.9999999 -0700 MST", currentTime)
+		t, err := time.Parse(time.RFC3339, currentTime)
 		if err != nil {
 			return &pb.TimeZoneResponse{}, err
 		}
