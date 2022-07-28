@@ -3,14 +3,12 @@ package service
 import (
 	"context"
 	"fmt"
-	"log"
-	"net"
 	"strings"
 	"time"
 	"timezone/pb/pb"
 
 	"github.com/bradfitz/latlong"
-	"github.com/oschwald/geoip2-golang"
+	"github.com/ip2location/ip2location-go/v9"
 	"google.golang.org/grpc/metadata"
 )
 
@@ -38,17 +36,18 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 	} else {
 		ipaddress = client_ip[0]
 	}
-	db, err := geoip2.Open("GeoIP2-City.mmdb")
+	db, err := ip2location.OpenDB("./IP2LOCATION-LITE-DB11.BIN")
 	if err != nil {
-		log.Fatal(err)
+		return &pb.TimeZoneResponse{}, err
 	}
-	defer db.Close()
-	ip := net.ParseIP(ipaddress)
-	record, err := db.City(ip)
+	results, err := db.Get_all(ipaddress)
 	if err != nil {
-		log.Fatal(err)
+		return &pb.TimeZoneResponse{}, err
 	}
-	fmt.Println(record.City.Names)
+	fmt.Println(results.Latitude)
+	fmt.Println(results.Longitude)
+	fmt.Println(results.Timezone)
+	db.Close()
 	latitude := req.GetLatitude()
 	fmt.Println(latitude)
 	longitude := req.GetLongitude()

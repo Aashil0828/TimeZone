@@ -14,6 +14,7 @@ require (
 require (
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/ip2location/ip2location-go/v9 v9.4.0 // indirect
 	github.com/jonas-p/go-shp v0.1.1 // indirect
 	github.com/oschwald/maxminddb-golang v1.9.0 // indirect
 	golang.org/x/image v0.0.0-20220722155232-062f8c9fd539 // indirect
