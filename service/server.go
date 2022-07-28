@@ -36,17 +36,20 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 	} else {
 		ipaddress = client_ip[0]
 	}
-	db, err := ip2location.OpenDB("IP2LOCATION-LITE-DB11.BIN")
+	fmt.Println(ipaddress)
+	db, err := ip2location.OpenDB("service/IP2LOCATION-LITE-DB11.BIN")
 	if err != nil {
 		return &pb.TimeZoneResponse{}, err
 	}
-	results, err := db.Get_all(ipaddress)
+	fmt.Println("hi")
+	results, err := db.Get_all(forwarded[0])
 	if err != nil {
-		return &pb.TimeZoneResponse{}, err
+		fmt.Println(err)
 	}
-	fmt.Println(results.Latitude)
-	fmt.Println(results.Longitude)
-	fmt.Println(results.Timezone)
+	fmt.Println("hi")
+	fmt.Println(results)
+	// fmt.Println(results.Longitude)
+	// fmt.Println(results.Timezone)
 	db.Close()
 	latitude := req.GetLatitude()
 	fmt.Println(latitude)
