@@ -65,6 +65,7 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 	}
 	m, _ := t.MarshalText()
 	a := string(m)
+	fmt.Println(a)
 	var utc string
 	if strings.Contains(a, "+") {
 		u := strings.Split(a, "+")
