@@ -36,7 +36,7 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 	} else {
 		ipaddress = client_ip[0]
 	}
-	db, err := ip2location.OpenDB("./IP2LOCATION-LITE-DB11.BIN")
+	db, err := ip2location.OpenDB("IP2LOCATION-LITE-DB11.BIN")
 	if err != nil {
 		return &pb.TimeZoneResponse{}, err
 	}
