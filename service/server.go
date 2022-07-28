@@ -9,6 +9,7 @@ import (
 
 	"github.com/bradfitz/latlong"
 	"google.golang.org/grpc/metadata"
+	"google.golang.org/grpc/peer"
 )
 
 type Server struct {
@@ -20,9 +21,9 @@ func NewServer() *Server {
 }
 
 func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (*pb.TimeZoneResponse, error) {
-	// p, _ := peer.FromContext(ctx)
-	// ipaddress := p.Addr.String()
-	// fmt.Println(ipaddress)
+	p, _ := peer.FromContext(ctx)
+	ipaddress := p.Addr.String()
+	fmt.Println(ipaddress)
 	if md, ok := metadata.FromIncomingContext(ctx); ok {
 		fmt.Println(md.Get("client-ip"))
 		fmt.Println(md.Get("x-forwarded-for"))
