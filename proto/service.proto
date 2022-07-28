@@ -4,16 +4,21 @@ option go_package = "./pb";
 import "google/api/annotations.proto";
 
 message TimeZoneRequest{
-    double latitude = 1;
-    double longitude = 2;
-    string time = 3;
+    string ipaddress = 1;
+    string time = 2;
 }
 
 message TimeZoneResponse{
     string utcOffset = 1;
     string zoneName = 2;
     string timeInThatZone = 3;
+    string region = 4;
+    string city = 5;
+    string country = 6;
+    double latitude = 7;
+    double longitude = 8;
 }
+
 service TimeZoneService{
     rpc TimeZoneDetails (TimeZoneRequest) returns (TimeZoneResponse){
         option (google.api.http) = {

@@ -53,13 +53,8 @@
     "TimeZoneRequest": {
       "type": "object",
       "properties": {
-        "latitude": {
-          "type": "number",
-          "format": "double"
-        },
-        "longitude": {
-          "type": "number",
-          "format": "double"
+        "ipaddress": {
+          "type": "string"
         },
         "time": {
           "type": "string"
@@ -77,6 +72,23 @@
         },
         "timeInThatZone": {
           "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double"
         }
       }
     },
