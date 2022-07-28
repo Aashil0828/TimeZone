@@ -47,16 +47,17 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 		fmt.Println(err)
 	}
 	fmt.Println("hi")
-	fmt.Println(results)
+	latitude := results.Latitude
+	longitude := results.Longitude
 	// fmt.Println(results.Longitude)
 	// fmt.Println(results.Timezone)
 	db.Close()
-	latitude := req.GetLatitude()
-	fmt.Println(latitude)
-	longitude := req.GetLongitude()
-	fmt.Println(longitude)
+	// latitude := req.GetLatitude()
+	// fmt.Println(latitude)
+	// longitude := req.GetLongitude()
+	// fmt.Println(longitude)
 	currentTime := req.GetTime()
-	timezone := latlong.LookupZoneName(latitude, longitude)
+	timezone := latlong.LookupZoneName(float64(latitude), float64(longitude))
 	if err := setTimezone(timezone); err != nil {
 		return &pb.TimeZoneResponse{}, err // most likely timezone not loaded in Docker OS
 	}
