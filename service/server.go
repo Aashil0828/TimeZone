@@ -49,6 +49,11 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 	// latitude := results.Latitude
 	// longitude := results.Longitude
 	timezone := results.Timezone
+	fmt.Println(results.Region)
+	fmt.Println(results.City)
+	fmt.Println(results.Country_short)
+	fmt.Println(results.Country_long)
+	fmt.Println(timezone)
 	db.Close()
 	// latitude := req.GetLatitude()
 	// fmt.Println(latitude)
