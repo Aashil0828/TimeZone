@@ -42,7 +42,7 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 		return &pb.TimeZoneResponse{}, err
 	}
 	fmt.Println("hi")
-	results, err := db.Get_all(forwarded[0])
+	results, err := db.Get_all(ipaddress)
 	if err != nil {
 		fmt.Println(err)
 	}
