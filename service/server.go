@@ -7,7 +7,6 @@ import (
 	"time"
 	"timezone/pb/pb"
 
-	"github.com/bradfitz/latlong"
 	"github.com/ip2location/ip2location-go/v9"
 	"google.golang.org/grpc/metadata"
 )
@@ -47,17 +46,16 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 		fmt.Println(err)
 	}
 	fmt.Println("hi")
-	latitude := results.Latitude
-	longitude := results.Longitude
-	// fmt.Println(results.Longitude)
-	// fmt.Println(results.Timezone)
+	// latitude := results.Latitude
+	// longitude := results.Longitude
+	timezone := results.Timezone
 	db.Close()
 	// latitude := req.GetLatitude()
 	// fmt.Println(latitude)
 	// longitude := req.GetLongitude()
 	// fmt.Println(longitude)
 	currentTime := req.GetTime()
-	timezone := latlong.LookupZoneName(float64(latitude), float64(longitude))
+	//timezone := latlong.LookupZoneName(float64(latitude), float64(longitude))
 	if err := setTimezone(timezone); err != nil {
 		return &pb.TimeZoneResponse{}, err // most likely timezone not loaded in Docker OS
 	}
