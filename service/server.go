@@ -3,13 +3,15 @@ package service
 import (
 	"context"
 	"fmt"
+	"log"
+	"net"
 	"strings"
 	"time"
 	"timezone/pb/pb"
 
 	"github.com/bradfitz/latlong"
+	"github.com/oschwald/geoip2-golang"
 	"google.golang.org/grpc/metadata"
-	"google.golang.org/grpc/peer"
 )
 
 type Server struct {
@@ -21,13 +23,32 @@ func NewServer() *Server {
 }
 
 func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (*pb.TimeZoneResponse, error) {
-	p, _ := peer.FromContext(ctx)
-	ipaddress := p.Addr.String()
-	fmt.Println(ipaddress)
+	// p, _ := peer.FromContext(ctx)
+	// ipaddress := p.Addr.String()
+	// fmt.Println(ipaddress)
+	var client_ip []string
+	var forwarded []string
+	var ipaddress string
 	if md, ok := metadata.FromIncomingContext(ctx); ok {
-		fmt.Println(md.Get("client-ip"))
-		fmt.Println(md.Get("x-forwarded-for"))
+		client_ip = md.Get("client-ip")
+		forwarded = md.Get("x-forwarded-for")
 	}
+	if len(forwarded) != 0 {
+		ipaddress = forwarded[0]
+	} else {
+		ipaddress = client_ip[0]
+	}
+	db, err := geoip2.Open("GeoIP2-City.mmdb")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+	ip := net.ParseIP(ipaddress)
+	record, err := db.City(ip)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(record.City.Names)
 	latitude := req.GetLatitude()
 	fmt.Println(latitude)
 	longitude := req.GetLongitude()
