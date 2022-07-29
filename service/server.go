@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"io"
 	"strings"
 	"time"
 	"timezone/pb/pb"
@@ -30,8 +31,8 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 	}
 	var client_ip []string
 	var forwarded []string
-	ipaddress:=req.Ipaddress
-	if ipaddress == ""{
+	ipaddress := req.Ipaddress
+	if ipaddress == "" {
 		if md, ok := metadata.FromIncomingContext(ctx); ok {
 			client_ip = md.Get("client-ip")
 			forwarded = md.Get("x-forwarded-for")
@@ -44,7 +45,7 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 	}
 	fmt.Println(ipaddress)
 	results, err := db.Get_all(ipaddress)
-	if err != nil {
+	if err != nil && err != io.EOF {
 		fmt.Println(err)
 	}
 	db.Close()
@@ -76,7 +77,7 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 		u := strings.Split(a, "-")
 		utc = fmt.Sprintf("UTC-%v", u[len(u)-1])
 	}
-	return &pb.TimeZoneResponse{UtcOffset: utc, ZoneName: timezone, TimeInThatZone: t.Format(time.RFC3339), Region: results.Region, City: results.City, Country: results.Country_long, Latitude: float64(results.Latitude), Longitude: float64(results.Longitude)}, nil
+	return &pb.TimeZoneResponse{UtcOffset: utc, ZoneName: timezone, TimeInThatZone: t.Format(time.RFC3339), Country: results.Country_long, Latitude: float64(results.Latitude), Longitude: float64(results.Longitude)}, nil
 }
 
 var loc *time.Location
