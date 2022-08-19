@@ -1,0 +1,5 @@
+make.exe --dry-run --always-make --keep-going --print-directory
+make: Entering directory 'c:/Users/Aashil/Desktop/Timezone'
+protoc --proto_path=proto proto/*.proto --go_out=pb --go-grpc_out=pb --grpc-gateway_out=pb --openapiv2_out=swagger
+make: Leaving directory 'c:/Users/Aashil/Desktop/Timezone'
+ 

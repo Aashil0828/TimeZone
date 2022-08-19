@@ -77,7 +77,7 @@ func (s *Server) TimeZoneDetails(ctx context.Context, req *pb.TimeZoneRequest) (
 		u := strings.Split(a, "-")
 		utc = fmt.Sprintf("UTC-%v", u[len(u)-1])
 	}
-	return &pb.TimeZoneResponse{UtcOffset: utc, ZoneName: timezone, TimeInThatZone: t.Format(time.RFC3339), Country: results.Country_long, Latitude: float64(results.Latitude), Longitude: float64(results.Longitude)}, nil
+	return &pb.TimeZoneResponse{UtcOffset: utc, ZoneName: timezone, TimeInThatZone: t.Format(time.RFC3339), Country: results.Country_long, Latitude: float64(results.Latitude), Longitude: float64(results.Longitude), Region: results.Region, City: results.City}, nil
 }
 
 var loc *time.Location
